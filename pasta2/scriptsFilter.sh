@@ -16,43 +16,43 @@ for arq in pcapFiles:
   dicionario={'packs': 0,'tcp': 0, 'syn': 0, 'syn_ack': 0, 'fin': 0, 'ack': 0, 'rst': 0, 'phs':0}
   
   packeges = sniff(offline=pcap)
-  dicionario['packs'] = len(packeges)
-  if len(packeges) == 0 :
-    break
 
-  myfilter = 'tcp'
-  tcp = sniff(offline=pcap, filter=myfilter)
-  dicionario['tcp'] = len(tcp)
+  if len(packeges) > 0 :
+    dicionario['packs'] = len(packeges)
 
-  myfilter = 'tcp[13] = 2'
-  syn = sniff(offline=pcap, filter=myfilter)
-  dicionario['syn'] = len(syn)
+    myfilter = 'tcp'
+    tcp = sniff(offline=pcap, filter=myfilter)
+    dicionario['tcp'] = len(tcp)
 
-  myfilter = 'tcp[13] = 18'
-  synack = sniff(offline=pcap, filter=myfilter)
-  dicionario['syn_ack'] = len(synack)
+    myfilter = 'tcp[13] = 2'
+    syn = sniff(offline=pcap, filter=myfilter)
+    dicionario['syn'] = len(syn)
 
-  myfilter = "tcp[tcpflags] & (tcp-fin) != 0"
-  fin = sniff(offline=pcap, filter=myfilter)
-  dicionario['fin'] = len(fin)
+    myfilter = 'tcp[13] = 18'
+    synack = sniff(offline=pcap, filter=myfilter)
+    dicionario['syn_ack'] = len(synack)
 
-  myfilter = 'tcp[13] = 16'
-  ack = sniff(offline=pcap, filter=myfilter)
-  dicionario['ack'] = len(ack)
+    myfilter = "tcp[tcpflags] & (tcp-fin) != 0"
+    fin = sniff(offline=pcap, filter=myfilter)
+    dicionario['fin'] = len(fin)
 
-  myfilter = "tcp[tcpflags] & (tcp-rst) != 0"
-  pctrst = sniff(offline=pcap, filter=myfilter)
-  dicionario['rst'] = len(pctrst)
+    myfilter = 'tcp[13] = 16'
+    ack = sniff(offline=pcap, filter=myfilter)
+    dicionario['ack'] = len(ack)
 
-  myfilter = "tcp[13] & 8 != 0"
-  pctpsh = sniff(offline=pcap, filter=myfilter)
-  dicionario['psh'] = len(pctpsh)
+    myfilter = "tcp[tcpflags] & (tcp-rst) != 0"
+    pctrst = sniff(offline=pcap, filter=myfilter)
+    dicionario['rst'] = len(pctrst)
 
-  concat=''
-  for i in dicionario:
-    concat += str(dicionario[i])+","
+    myfilter = "tcp[13] & 8 != 0"
+    pctpsh = sniff(offline=pcap, filter=myfilter)
+    dicionario['psh'] = len(pctpsh)
 
-  linhaPacks.append(concat)
+    concat=''
+    for i in dicionario:
+      concat += str(dicionario[i])+","
+
+    linhaPacks.append(concat)
 
 # print(linhaPacks)
 
